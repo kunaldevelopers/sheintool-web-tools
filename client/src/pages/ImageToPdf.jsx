@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ToolUI from '../components/ToolUI';
-import axios from 'axios';
+import { api } from '../services/api';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 
 export default function ImageToPdf() {
@@ -13,11 +13,12 @@ export default function ImageToPdf() {
         files.forEach(file => formData.append('files', file));
 
         try {
-            const response = await axios.post('http://localhost:5000/api/tools/pdf/extra/image-to-pdf', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+            const response = await api.post('/tools/pdf/extra/image-to-pdf', formData, {
+                responseType: 'blob',
                 onUploadProgress: onProgress
             });
-            setResult(response.data.downloadUrl);
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            setResult(url);
         } catch (error) {
             console.error(error);
             alert('Conversion failed');

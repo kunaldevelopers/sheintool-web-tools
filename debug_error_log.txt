@@ -1,0 +1,19 @@
+{
+  "error": "Conversion failed",
+  "details": "Invalid PDF structure"
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Error: No output specified<br> &nbsp; &nbsp;at proto.exec.proto.execute.proto.run (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\fluent-ffmpeg\lib\processor.js:402:13)<br> &nbsp; &nbsp;at exports.convertVideo (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\controllers\videoController.js:55:13)<br> &nbsp; &nbsp;at Layer.handleRequest (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\router\lib\layer.js:152:17)<br> &nbsp; &nbsp;at next (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\router\lib\route.js:157:13)<br> &nbsp; &nbsp;at done (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\multer\lib\make-middleware.js:59:7)<br> &nbsp; &nbsp;at indicateDone (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\multer\lib\make-middleware.js:63:68)<br> &nbsp; &nbsp;at C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\multer\lib\make-middleware.js:176:11<br> &nbsp; &nbsp;at WriteStream.&lt;anonymous&gt; (C:\Users\Kunal\Downloads\New folder (40)\sheintool\server\node_modules\multer\storage\disk.js:43:9)<br> &nbsp; &nbsp;at WriteStream.emit (node:events:520:35)<br> &nbsp; &nbsp;at finish (node:internal/streams/writable:953:10)<br> &nbsp; &nbsp;at node:internal/streams/writable:934:13<br> &nbsp; &nbsp;at process.processTicksAndRejections (node:internal/process/task_queues:90:21)</pre>
+</body>
+</html>
+
+{
+  "error": "Video conversion failed",
+  "details": "Output format mkv is not available"
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Merge PDF",
+    "category": "PDF Tools",
+    "status": "PASS",
+    "duration": 112
+  },
+  {
+    "name": "Split PDF",
+    "category": "PDF Tools",
+    "status": "PASS",
+    "duration": 51
+  },
+  {
+    "name": "Compress PDF",
+    "category": "PDF Tools",
+    "status": "PASS",
+    "duration": 57
+  },
+  {
+    "name": "Protect PDF",
+    "category": "PDF Tools",
+    "status": "PASS",
+    "duration": 64
+  },
+  {
+    "name": "Unlock PDF",
+    "category": "PDF Tools",
+    "status": "PASS",
+    "duration": 66
+  },
+  {
+    "name": "Rotate PDF",
+    "category": "PDF Tools",
+    "status": "PASS",
+    "duration": 58
+  },
+  {
+    "name": "Markdown to PDF",
+    "category": "Conversion",
+    "status": "PASS",
+    "duration": 1644
+  },
+  {
+    "name": "PDF to Markdown",
+    "category": "Conversion",
+    "status": "PASS",
+    "duration": 48
+  },
+  {
+    "name": "Word to PDF",
+    "category": "Conversion",
+    "status": "PASS",
+    "duration": 1867
+  },
+  {
+    "name": "Image to PDF",
+    "category": "Conversion",
+    "status": "PASS",
+    "duration": 70
+  },
+  {
+    "name": "OCR (Image)",
+    "category": "Conversion",
+    "status": "PASS",
+    "duration": 348
+  },
+  {
+    "name": "OCR (PDF)",
+    "category": "Conversion",
+    "status": "PASS",
+    "duration": 5501
+  },
+  {
+    "name": "Image Converter",
+    "category": "Media",
+    "status": "PASS",
+    "duration": 31
+  },
+  {
+    "name": "Video Converter",
+    "category": "Media",
+    "status": "PASS",
+    "duration": 182
+  },
+  {
+    "name": "Audio Converter",
+    "category": "Media",
+    "status": "PASS",
+    "duration": 123
+  },
+  {
+    "name": "Zip Create",
+    "category": "Utilities",
+    "status": "PASS",
+    "duration": 34
+  },
+  {
+    "name": "QR Generator",
+    "category": "Utilities",
+    "status": "PASS",
+    "duration": 43
+  }
+]

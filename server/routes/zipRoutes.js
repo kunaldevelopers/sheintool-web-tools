@@ -5,7 +5,7 @@ const zipController = require('../controllers/zipController');
 
 const upload = multer({ dest: 'uploads/' });
 
-router.post('/tools/zip/create', upload.array('files'), zipController.createZip);
-router.post('/tools/zip/extract', upload.single('file'), zipController.extractZip);
+router.post('/create', upload.array('files'), zipController.createZip);
+router.post('/extract', upload.single('file'), zipController.extractZip);
 
 module.exports = router;

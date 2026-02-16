@@ -28,8 +28,11 @@ export default function OcrPdf() {
     return (
         <ToolUI
             title="OCR Scanner"
-            description="Extract text from images (JPG, PNG)."
-            accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
+            description="Extract text from images (JPG, PNG) or scanned PDFs."
+            accept={{
+                'image/*': ['.png', '.jpg', '.jpeg'],
+                'application/pdf': ['.pdf']
+            }}
             onConvert={handleConvert}
             processing={processing}
             result={result}

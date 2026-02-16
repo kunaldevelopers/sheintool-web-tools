@@ -1,6 +1,7 @@
 const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
 const path = require('path');
+const muhammara = require('muhammara');
 
 // Helper to cleanup files
 const cleanup = (files) => {
@@ -50,17 +51,11 @@ exports.mergePDFs = async (req, res) => {
 };
 
 exports.splitPDF = async (req, res) => {
-    // Splits all pages into individual files (zipped) or specific range?
-    // User asked for "page range / extract pages".
-    // For MVP, let's implement "Extract All Pages" into a Zip.
-
     if (!req.file) return res.status(400).json({ error: 'No PDF uploaded' });
 
     console.log('--- Split PDF Request ---');
     console.log(`📂 File: ${req.file.originalname}`);
 
-    // TODO: Implement Split Logic (using adm-zip to package result)
-    // NOTE: This requires 'adm-zip' which we have.
     const AdmZip = require('adm-zip');
 
     try {
@@ -99,35 +94,50 @@ exports.splitPDF = async (req, res) => {
 };
 
 exports.compressPDF = async (req, res) => {
+    // Improved Compression using Muhammara to rewrite the PDF structure.
+    // This often removes unused objects and defragments the file.
+
+    if (!req.file) {
+        return res.status(400).json({ error: 'No PDF file uploaded' });
+    }
+
+    console.log('--- Compress PDF Request ---');
+    console.log(`📂 File: ${req.file.originalname}`);
+    console.log(`Original Size: ${(req.file.size / 1024).toFixed(2)} KB`);
+
+    const filename = `compressed_${Date.now()}.pdf`;
+    const outputPath = path.join('uploads', filename);
+
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No PDF file uploaded' });
-        }
+        // Method 1: Use Muhammara to rewrite (fast and effective for messy PDFs)
+        // This is equivalent to "Save As" which drops garbage.
 
-        const pdfBytes = await fs.readFileSync(req.file.path);
-        const pdfDoc = await PDFDocument.load(pdfBytes);
+        // We create a new PDF copying pages from the old one.
+        const pdfWriter = muhammara.createWriter(outputPath);
 
-        // Basic optimization: re-saving with pdf-lib often reduces size by removing unused objects
-        // For better compression, we would need ghostscript or similar binaries which might be too heavy/complex for this setup.
-        const compressedBytes = await pdfDoc.save({ useObjectStreams: false });
+        // Copying requests
+        pdfWriter.appendPDFPagesFromPDF(req.file.path);
 
-        const filename = `compressed_${Date.now()}.pdf`;
-        const outputPath = path.join(__dirname, '../../client/public/downloads', filename);
+        pdfWriter.end();
 
-        // Ensure directory exists
-        const dir = path.dirname(outputPath);
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
+        // Check new size
+        const newStats = fs.statSync(outputPath);
+        console.log(`Compressed Size: ${(newStats.size / 1024).toFixed(2)} KB`);
 
-        await fs.writeFileSync(outputPath, compressedBytes);
+        // If compression didn't help (or made it bigger), fallback to pdf-lib with object streams?
+        // Actually for now, this is the "Strong" structural compression achievable without GS.
 
         // Clean up uploaded file
-        await fs.unlinkSync(req.file.path);
+        fs.unlink(req.file.path, () => { });
 
-        res.json({ downloadUrl: `/downloads/${filename}` });
+        res.download(outputPath, filename, (err) => {
+            fs.unlink(outputPath, () => { });
+            if (err) console.error('Download error:', err);
+        });
+
     } catch (error) {
         console.error('Compress PDF Error:', error);
+        if (fs.existsSync(req.file.path)) fs.unlink(req.file.path, () => { });
         res.status(500).json({ error: 'Compression failed' });
     }
 };
@@ -142,9 +152,6 @@ exports.protectPDF = async (req, res) => {
     const outputFile = path.join('uploads', `protected_${req.file.originalname}`);
 
     try {
-        const muhammara = require('muhammara');
-
-        // Use muhammara.recrypt to add password
         muhammara.recrypt(
             req.file.path,
             outputFile,
@@ -156,18 +163,11 @@ exports.protectPDF = async (req, res) => {
         );
 
         console.log(`✅ Protected: ${outputFile}`);
-
-        // Cleanup input
         fs.unlink(req.file.path, () => { });
 
         res.download(outputFile, (err) => {
             if (err) console.error('Download error:', err);
-            // Cleanup output after download? Maybe delay it.
-            // fs.unlink(outputFile, () => {}); 
-            // For now, let's keep it simple or use a timeout.
-            setTimeout(() => {
-                if (fs.existsSync(outputFile)) fs.unlink(outputFile, () => { });
-            }, 60000); // 1 min cleanup
+            fs.unlink(outputFile, () => { });
         });
 
     } catch (error) {
@@ -187,12 +187,8 @@ exports.unlockPDF = async (req, res) => {
     const outputFile = path.join('uploads', `unlocked_${req.file.originalname}`);
 
     try {
-        const muhammara = require('muhammara');
-
-        // To unlock, we create a new PDF and copy pages from the encrypted one using the password
         const writer = muhammara.createWriter(outputFile);
         const context = writer.createPDFCopyingContext(req.file.path, { password: req.body.password });
-
         const parser = context.getSourceDocumentParser();
         const pageCount = parser.getPagesCount();
 
@@ -205,15 +201,11 @@ exports.unlockPDF = async (req, res) => {
         writer.end();
 
         console.log(`✅ Unlocked: ${outputFile}`);
-
-        // Cleanup input
         fs.unlink(req.file.path, () => { });
 
         res.download(outputFile, (err) => {
             if (err) console.error('Download error:', err);
-            setTimeout(() => {
-                if (fs.existsSync(outputFile)) fs.unlink(outputFile, () => { });
-            }, 60000);
+            fs.unlink(outputFile, () => { });
         });
 
     } catch (error) {

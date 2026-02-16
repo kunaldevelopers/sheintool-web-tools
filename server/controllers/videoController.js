@@ -52,5 +52,5 @@ exports.convertVideo = (req, res) => {
             }
         });
 
-    command.run();
+    command.save(outputPath);
 };

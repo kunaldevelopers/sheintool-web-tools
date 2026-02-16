@@ -1,6 +1,10 @@
 const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
 const fs = require('fs');
 const path = require('path');
+
+// Set ffmpeg path
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 exports.convertAudio = (req, res) => {
     if (!req.file) {
