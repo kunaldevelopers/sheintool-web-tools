@@ -22,13 +22,23 @@ const audioRoutes = require('./routes/audioRoutes');
 const documentRoutes = require('./routes/documentRoutes');
 const qrRoutes = require('./routes/qrRoutes');
 const zipRoutes = require('./routes/zipRoutes');
+const pdfCoreRoutes = require('./routes/pdfCoreRoutes');
+const pdfEditRoutes = require('./routes/pdfEditRoutes');
+const pdfExtraRoutes = require('./routes/pdfExtraRoutes');
+
+
 
 app.use('/api', imageRoutes);
 app.use('/api', videoRoutes);
 app.use('/api', audioRoutes);
-app.use('/api', documentRoutes);
-app.use('/api', qrRoutes);
-app.use('/api', zipRoutes);
+app.use('/api/tools/document', documentRoutes);
+app.use('/api/tools/qr', qrRoutes);
+app.use('/api/tools/zip', zipRoutes);
+app.use('/api/tools/pdf/core', pdfCoreRoutes);
+app.use('/api/tools/pdf/edit', pdfEditRoutes);
+app.use('/api/tools/pdf/extra', pdfExtraRoutes);
+
+
 
 
 app.get('/', (req, res) => {

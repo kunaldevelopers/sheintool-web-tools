@@ -10,6 +10,17 @@ import PdfToMarkdown from './pages/PdfToMarkdown';
 import QrGenerator from './pages/QrGenerator';
 import ZipManager from './pages/ZipManager';
 
+import MergePdf from './pages/MergePdf';
+import SplitPdf from './pages/SplitPdf';
+import ProtectPdf from './pages/ProtectPdf';
+import UnlockPdf from './pages/UnlockPdf';
+import RotatePdf from './pages/RotatePdf';
+import WatermarkPdf from './pages/WatermarkPdf';
+import PageNumbersPdf from './pages/PageNumbersPdf';
+import OrganizePdf from './pages/OrganizePdf';
+import OfficeToPdf from './pages/OfficeToPdf';
+import OcrPdf from './pages/OcrPdf';
+
 // Placeholder for tool pages (will implement later)
 const ToolPlaceholder = ({ name }) => (
   <div className="text-center py-20">
@@ -24,16 +35,36 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        {/* We will map these routes properly once components are built */}
+        {/* Image Tools */}
         <Route path="/tools/image-converter" element={<ImageConverter />} />
-        <Route path="/tools/image-to-pdf" element={<ToolPlaceholder name="Image to PDF" />} />
+
+        {/* Video & Audio */}
         <Route path="/tools/video-converter" element={<VideoConverter />} />
         <Route path="/tools/audio-converter" element={<AudioConverter />} />
+
+        {/* PDF Core */}
+        <Route path="/tools/merge-pdf" element={<MergePdf />} />
+        <Route path="/tools/split-pdf" element={<SplitPdf />} />
+        <Route path="/tools/compress-pdf" element={<ToolPlaceholder name="Compress PDF" />} />
+        <Route path="/tools/protect-pdf" element={<ProtectPdf />} />
+        <Route path="/tools/unlock-pdf" element={<UnlockPdf />} />
+
+        {/* PDF Editing */}
+        <Route path="/tools/rotate-pdf" element={<RotatePdf />} />
+        <Route path="/tools/watermark-pdf" element={<WatermarkPdf />} />
+        <Route path="/tools/page-numbers" element={<PageNumbersPdf />} />
+        <Route path="/tools/organize-pdf" element={<OrganizePdf />} />
+
+        {/* Converters */}
+        <Route path="/tools/word-to-pdf" element={<OfficeToPdf />} />
         <Route path="/tools/markdown-to-pdf" element={<MarkdownToPdf />} />
         <Route path="/tools/pdf-to-markdown" element={<PdfToMarkdown />} />
+        <Route path="/tools/ocr-pdf" element={<OcrPdf />} />
+
+        {/* Utilities */}
         <Route path="/tools/qr-generator" element={<QrGenerator />} />
         <Route path="/tools/zip-manager" element={<ZipManager />} />
-        {/* Add catch-all or other routes */}
+
         <Route path="*" element={<div className="text-center py-20">Page Not Found</div>} />
       </Routes>
     </Layout>

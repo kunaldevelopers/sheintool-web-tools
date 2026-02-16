@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTools, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTools, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -35,7 +35,7 @@ export default function Navbar() {
                             onClick={() => setIsOpen(!isOpen)}
                             className="text-gray-600 hover:text-gray-900 focus:outline-none p-2 rounded-md active:bg-gray-100"
                         >
-                            <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="text-xl" />
+                            <FontAwesomeIcon icon={isOpen ? faXmark : faBars} className="text-xl" />
                         </button>
                     </div>
                 </div>

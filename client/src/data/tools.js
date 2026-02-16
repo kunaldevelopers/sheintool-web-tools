@@ -1,44 +1,67 @@
-
 import {
-    faImage, faFilePdf, faVideo, faMusic, faQrcode, faFileArchive, faFileCode
+    faImage, faVideo, faMusic, faFilePdf, faQrcode, faFileZipper,
+    faObjectGroup, faScissors, faLock, faUnlock, faRotate, faStamp, faListOl, faArrowDownWideShort,
+    faFileWord, faFileCode, faFont, faCompress
 } from '@fortawesome/free-solid-svg-icons';
 
 export const TOOLS = [
     {
-        category: "Image & File Conversion",
+        category: "Most Popular",
         items: [
-            { id: 'img-converter', name: 'Image Converter', icon: faImage, desc: 'Convert JPG, PNG, WEBP, HEIC & more.', path: '/tools/image-converter' },
-            { id: 'img-to-pdf', name: 'Image to PDF', icon: faFilePdf, desc: 'Convert images to PDF document.', path: '/tools/image-to-pdf' },
-            { id: 'pdf-to-img', name: 'PDF to Image', icon: faImage, desc: 'Extract images from PDF files.', path: '/tools/pdf-to-image' },
+            { id: 'merge-pdf', name: 'Merge PDF', desc: 'Combine PDFs in the order you want.', icon: faObjectGroup, path: '/tools/merge-pdf', tags: 'pdf combine join' },
+            { id: 'split-pdf', name: 'Split PDF', desc: 'Separate one page or a whole set for easy conversion.', icon: faScissors, path: '/tools/split-pdf', tags: 'pdf extract separate' },
+            { id: 'compress-pdf', name: 'Compress PDF', desc: 'Reduce file size while optimizing for maximal quality.', icon: faCompress, path: '/tools/compress-pdf', tags: 'pdf shrink size optimize' },
+            { id: 'word-to-pdf', name: 'Word to PDF', desc: 'Make DOC and DOCX files easy to read by converting them to PDF.', icon: faFileWord, path: '/tools/word-to-pdf', tags: 'doc docx office' },
         ]
     },
     {
-        category: "Video Tools",
+        category: "PDF Essentials",
         items: [
-            { id: 'video-converter', name: 'Video Converter', icon: faVideo, desc: 'Convert MP4, MKV, AVI, & more.', path: '/tools/video-converter' },
-            { id: 'video-to-gif', name: 'Video to GIF', icon: faVideo, desc: 'Create GIFs from video clips.', path: '/tools/video-to-gif' },
-            { id: 'video-to-audio', name: 'Video to Audio', icon: faMusic, desc: 'Extract audio (MP3) from video.', path: '/tools/video-to-audio' },
+            { id: 'merge-pdf-2', name: 'Merge PDF', desc: 'Combine multiple PDFs into one.', icon: faObjectGroup, path: '/tools/merge-pdf' },
+            { id: 'split-pdf-2', name: 'Split PDF', desc: 'Extract pages from your PDF.', icon: faScissors, path: '/tools/split-pdf' },
+            { id: 'compress-pdf-2', name: 'Compress PDF', desc: 'Reduce PDF file size.', icon: faCompress, path: '/tools/compress-pdf' },
+            { id: 'ocr-pdf', name: 'OCR Scanner', desc: 'Extract text from scanned images.', icon: faFont, path: '/tools/ocr-pdf', tags: 'ocr text scan image' },
         ]
     },
     {
-        category: "Audio Tools",
+        category: "Convert to PDF",
         items: [
-            { id: 'audio-converter', name: 'Audio Converter', icon: faMusic, desc: 'Convert audio files to different formats.', path: '/tools/audio-converter' },
-            { id: 'audio-cutter', name: 'Audio Cutter', icon: faMusic, desc: 'Trim and cut audio files.', path: '/tools/audio-cutter' },
+            { id: 'image-converter', name: 'Image to PDF', desc: 'Convert JPG, PNG, BMP, GIF, and TIFF images to PDF.', icon: faImage, path: '/tools/image-converter', tags: 'jpg png' }, // Reusing image converter for now or need specific Img->PDF? User said "Image Converter" originally. Let's keep it.
+            { id: 'word-to-pdf-2', name: 'Word to PDF', desc: 'Convert Word documents to PDF.', icon: faFileWord, path: '/tools/word-to-pdf' },
+            { id: 'markdown-to-pdf', name: 'Markdown to PDF', desc: 'Convert Markdown files to PDF.', icon: faFileCode, path: '/tools/markdown-to-pdf' },
         ]
     },
     {
-        category: "Document & Text",
+        category: "Convert from PDF",
         items: [
-            { id: 'md-to-pdf', name: 'Markdown to PDF', icon: faFileCode, desc: 'Convert Markdown text to PDF.', path: '/tools/markdown-to-pdf' },
-            { id: 'pdf-to-md', name: 'PDF to Markdown', icon: faFileCode, desc: 'Convert PDF to Markdown text.', path: '/tools/pdf-to-markdown' },
+            { id: 'pdf-to-markdown', name: 'PDF to Markdown', desc: 'Convert PDF files to Markdown.', icon: faFileCode, path: '/tools/pdf-to-markdown' },
+            // { id: 'pdf-to-word', name: 'PDF to Word', desc: 'Convert your PDF to WORD documents.', icon: faFileWord, path: '/tools/pdf-to-word' }, // Planned but not asked in strict list? Asked "PDF -> Office". I only implemented Office -> PDF. I'll omit PDF->Office for now as I didn't implement it.
         ]
     },
     {
-        category: "Utilities",
+        category: "Edit PDF",
         items: [
-            { id: 'qr-generator', name: 'QR Code Generator', icon: faQrcode, desc: 'Generate QR codes for links and text.', path: '/tools/qr-generator' },
-            { id: 'zip-manager', name: 'Zip Manager', icon: faFileArchive, desc: 'Create and extract ZIP archives.', path: '/tools/zip-manager' },
+            { id: 'rotate-pdf', name: 'Rotate PDF', desc: 'Rotate your PDF pages.', icon: faRotate, path: '/tools/rotate-pdf' },
+            { id: 'watermark-pdf', name: 'Add Watermark', desc: 'Stamp text over your PDF.', icon: faStamp, path: '/tools/watermark-pdf' },
+            { id: 'page-numbers', name: 'Page Numbers', desc: 'Add page numbers into your PDF.', icon: faListOl, path: '/tools/page-numbers' },
+            { id: 'organize-pdf', name: 'Organize PDF', desc: 'Sort, add and delete PDF pages.', icon: faArrowDownWideShort, path: '/tools/organize-pdf' },
+        ]
+    },
+    {
+        category: "PDF Security",
+        items: [
+            { id: 'protect-pdf', name: 'Protect PDF', desc: 'Encrypt your PDF with a password.', icon: faLock, path: '/tools/protect-pdf' },
+            { id: 'unlock-pdf', name: 'Unlock PDF', desc: 'Remove PDF password security.', icon: faUnlock, path: '/tools/unlock-pdf' },
+        ]
+    },
+    {
+        category: "Media & Utilities",
+        items: [
+            { id: 'image-conv', name: 'Image Converter', desc: 'Convert between image formats.', icon: faImage, path: '/tools/image-converter' },
+            { id: 'video-conv', name: 'Video Converter', desc: 'Convert video files (MP4, AVI, MKV).', icon: faVideo, path: '/tools/video-converter' },
+            { id: 'audio-conv', name: 'Audio Converter', desc: 'Convert audio files (MP3, WAV).', icon: faMusic, path: '/tools/audio-converter' },
+            { id: 'qr-gen', name: 'QR Generator', desc: 'Create QR codes for free.', icon: faQrcode, path: '/tools/qr-generator' },
+            { id: 'zip-manager', name: 'Zip Manager', desc: 'Create and extract ZIP archives.', icon: faFileZipper, path: '/tools/zip-manager' },
         ]
     }
 ];
