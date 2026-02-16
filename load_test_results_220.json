@@ -1,0 +1,22 @@
+{
+  "users": 220,
+  "total": 52039,
+  "success": 0,
+  "failures": 52039,
+  "avgResponse": "0",
+  "errors": {
+    "": 52038,
+    "Parse Error: Expected HTTP/, RTSP/ or ICE/": 1
+  },
+  "toolUsage": {
+    "Image to PDF": 7863,
+    "Compress PDF": 7794,
+    "Convert Video": 5203,
+    "Split PDF": 5200,
+    "Convert Audio": 7818,
+    "Merge PDF": 7829,
+    "Convert Image": 5194,
+    "Word to PDF": 2534,
+    "OCR Image": 2604
+  }
+}
