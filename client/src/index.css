@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900;
+}
+
+@theme {
+  --color-primary: #FF4081;
+  --color-secondary: #3F51B5;
+  --animate-bounce-short: bounce 0.5s ease-in-out 1;
+}
