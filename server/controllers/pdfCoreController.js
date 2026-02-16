@@ -178,37 +178,47 @@ exports.protectPDF = async (req, res) => {
 };
 
 exports.unlockPDF = async (req, res) => {
-    // pdf-lib does NOT support unlocking (decrypting) PDFs with password easily if it's strongly encrypted?
-    // Actually PDFDocument.load(bytes, { password: ... }) works.
-
     if (!req.file || !req.body.password) {
         return res.status(400).json({ error: 'File and password are required' });
     }
 
-    console.log('--- Unlock PDF Request ---');
+    console.log('--- Unlock PDF Request (Muhammara) ---');
+    console.log(`Input: ${req.file.path}`);
+    const outputFile = path.join('uploads', `unlocked_${req.file.originalname}`);
 
     try {
-        const pdfBytes = fs.readFileSync(req.file.path);
-        // Load with password
-        const pdf = await PDFDocument.load(pdfBytes, { password: req.body.password });
+        const muhammara = require('muhammara');
 
-        // Save without security
-        const unlockedBytes = await pdf.save();
+        // To unlock, we create a new PDF and copy pages from the encrypted one using the password
+        const writer = muhammara.createWriter(outputFile);
+        const context = writer.createPDFCopyingContext(req.file.path, { password: req.body.password });
 
-        const outputFilename = `unlocked_${req.file.originalname}`;
-        const outputPath = path.join('uploads', outputFilename);
+        const parser = context.getSourceDocumentParser();
+        const pageCount = parser.getPagesCount();
 
-        fs.writeFileSync(outputPath, unlockedBytes);
+        console.log(`Unlocking ${pageCount} pages...`);
 
+        for (let i = 0; i < pageCount; i++) {
+            context.appendPDFPageFromPDF(i);
+        }
+
+        writer.end();
+
+        console.log(`✅ Unlocked: ${outputFile}`);
+
+        // Cleanup input
         fs.unlink(req.file.path, () => { });
 
-        res.download(outputPath, outputFilename, (err) => {
-            fs.unlink(outputPath, () => { });
+        res.download(outputFile, (err) => {
+            if (err) console.error('Download error:', err);
+            setTimeout(() => {
+                if (fs.existsSync(outputFile)) fs.unlink(outputFile, () => { });
+            }, 60000);
         });
 
     } catch (error) {
         console.error('Unlock error:', error);
-        fs.unlink(req.file.path, () => { });
+        if (fs.existsSync(req.file.path)) fs.unlink(req.file.path, () => { });
         res.status(500).json({ error: 'Unlock failed (Wrong password?)', details: error.message });
     }
 };
