@@ -12,6 +12,7 @@ import ZipManager from './pages/ZipManager';
 
 import MergePdf from './pages/MergePdf';
 import SplitPdf from './pages/SplitPdf';
+import CompressPdf from './pages/CompressPdf';
 import ProtectPdf from './pages/ProtectPdf';
 import UnlockPdf from './pages/UnlockPdf';
 import RotatePdf from './pages/RotatePdf';
@@ -20,6 +21,7 @@ import PageNumbersPdf from './pages/PageNumbersPdf';
 import OrganizePdf from './pages/OrganizePdf';
 import OfficeToPdf from './pages/OfficeToPdf';
 import OcrPdf from './pages/OcrPdf';
+import ImageToPdf from './pages/ImageToPdf';
 
 // Placeholder for tool pages (will implement later)
 const ToolPlaceholder = ({ name }) => (
@@ -37,6 +39,7 @@ function App() {
 
         {/* Image Tools */}
         <Route path="/tools/image-converter" element={<ImageConverter />} />
+        <Route path="/tools/image-to-pdf" element={<ImageToPdf />} />
 
         {/* Video & Audio */}
         <Route path="/tools/video-converter" element={<VideoConverter />} />
@@ -45,7 +48,7 @@ function App() {
         {/* PDF Core */}
         <Route path="/tools/merge-pdf" element={<MergePdf />} />
         <Route path="/tools/split-pdf" element={<SplitPdf />} />
-        <Route path="/tools/compress-pdf" element={<ToolPlaceholder name="Compress PDF" />} />
+        <Route path="/tools/compress-pdf" element={<CompressPdf />} />
         <Route path="/tools/protect-pdf" element={<ProtectPdf />} />
         <Route path="/tools/unlock-pdf" element={<UnlockPdf />} />
 

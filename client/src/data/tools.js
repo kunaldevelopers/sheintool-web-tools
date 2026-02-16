@@ -26,7 +26,7 @@ export const TOOLS = [
     {
         category: "Convert to PDF",
         items: [
-            { id: 'image-converter', name: 'Image to PDF', desc: 'Convert JPG, PNG, BMP, GIF, and TIFF images to PDF.', icon: faImage, path: '/tools/image-converter', tags: 'jpg png' }, // Reusing image converter for now or need specific Img->PDF? User said "Image Converter" originally. Let's keep it.
+            { id: 'image-to-pdf', name: 'Image to PDF', desc: 'Convert JPG, PNG, BMP, GIF, and TIFF images to PDF.', icon: faImage, path: '/tools/image-to-pdf', tags: 'jpg png' },
             { id: 'word-to-pdf-2', name: 'Word to PDF', desc: 'Convert Word documents to PDF.', icon: faFileWord, path: '/tools/word-to-pdf' },
             { id: 'markdown-to-pdf', name: 'Markdown to PDF', desc: 'Convert Markdown files to PDF.', icon: faFileCode, path: '/tools/markdown-to-pdf' },
         ]

@@ -19,6 +19,7 @@ const upload = multer({ storage: storage });
 // Routes
 router.post('/merge', upload.array('files', 20), pdfCoreController.mergePDFs);
 router.post('/split', upload.single('file'), pdfCoreController.splitPDF);
+router.post('/compress', upload.single('file'), pdfCoreController.compressPDF);
 router.post('/protect', upload.single('file'), pdfCoreController.protectPDF);
 router.post('/unlock', upload.single('file'), pdfCoreController.unlockPDF);
 

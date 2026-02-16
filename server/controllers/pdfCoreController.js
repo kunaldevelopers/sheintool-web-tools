@@ -98,47 +98,81 @@ exports.splitPDF = async (req, res) => {
     }
 };
 
+exports.compressPDF = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No PDF file uploaded' });
+        }
+
+        const pdfBytes = await fs.readFileSync(req.file.path);
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+
+        // Basic optimization: re-saving with pdf-lib often reduces size by removing unused objects
+        // For better compression, we would need ghostscript or similar binaries which might be too heavy/complex for this setup.
+        const compressedBytes = await pdfDoc.save({ useObjectStreams: false });
+
+        const filename = `compressed_${Date.now()}.pdf`;
+        const outputPath = path.join(__dirname, '../../client/public/downloads', filename);
+
+        // Ensure directory exists
+        const dir = path.dirname(outputPath);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        await fs.writeFileSync(outputPath, compressedBytes);
+
+        // Clean up uploaded file
+        await fs.unlinkSync(req.file.path);
+
+        res.json({ downloadUrl: `/downloads/${filename}` });
+    } catch (error) {
+        console.error('Compress PDF Error:', error);
+        res.status(500).json({ error: 'Compression failed' });
+    }
+};
+
 exports.protectPDF = async (req, res) => {
     if (!req.file || !req.body.password) {
         return res.status(400).json({ error: 'File and password are required' });
     }
 
-    console.log('--- Protect PDF Request ---');
+    console.log('--- Protect PDF Request (Muhammara) ---');
+    console.log(`Input: ${req.file.path}`);
+    const outputFile = path.join('uploads', `protected_${req.file.originalname}`);
 
     try {
-        const pdfBytes = fs.readFileSync(req.file.path);
-        const pdf = await PDFDocument.load(pdfBytes);
+        const muhammara = require('muhammara');
 
-        // Encrypt logic
-        pdf.encrypt({
-            userPassword: req.body.password,
-            ownerPassword: req.body.password,
-            permissions: {
-                printing: 'highResolution',
-                modifying: false,
-                copying: false,
-                annotating: false,
-                fillingForms: false,
-                contentAccessibility: false,
-                documentAssembly: false,
-            },
-        });
+        // Use muhammara.recrypt to add password
+        muhammara.recrypt(
+            req.file.path,
+            outputFile,
+            {
+                userPassword: req.body.password,
+                ownerPassword: req.body.password,
+                userProtectionFlag: 4 // Allow printing
+            }
+        );
 
-        const encryptedBytes = await pdf.save();
-        const outputFilename = `protected_${req.file.originalname}`;
-        const outputPath = path.join('uploads', outputFilename);
+        console.log(`✅ Protected: ${outputFile}`);
 
-        fs.writeFileSync(outputPath, encryptedBytes);
-
+        // Cleanup input
         fs.unlink(req.file.path, () => { });
 
-        res.download(outputPath, outputFilename, (err) => {
-            fs.unlink(outputPath, () => { });
+        res.download(outputFile, (err) => {
+            if (err) console.error('Download error:', err);
+            // Cleanup output after download? Maybe delay it.
+            // fs.unlink(outputFile, () => {}); 
+            // For now, let's keep it simple or use a timeout.
+            setTimeout(() => {
+                if (fs.existsSync(outputFile)) fs.unlink(outputFile, () => { });
+            }, 60000); // 1 min cleanup
         });
 
     } catch (error) {
         console.error('Protect error:', error);
-        fs.unlink(req.file.path, () => { });
+        if (fs.existsSync(req.file.path)) fs.unlink(req.file.path, () => { });
         res.status(500).json({ error: 'Protection failed', details: error.message });
     }
 };
