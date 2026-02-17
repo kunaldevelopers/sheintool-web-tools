@@ -52,24 +52,52 @@ exports.extractZip = (req, res) => {
     console.log(`📂 Archive: ${req.file.originalname}`);
     console.log(`⚖️  Size: ${(req.file.size / 1024).toFixed(2)} KB`);
 
-    // Basic implementation: just list files for simplicity
     try {
         console.log('🔄 Reading Archive...');
         const zip = new AdmZip(req.file.path);
         const zipEntries = zip.getEntries();
 
-        const fileList = zipEntries.map(entry => entry.entryName);
-        console.log(`✅ Extracted ${fileList.length} entries.`);
-        fileList.forEach(name => console.log(`   - ${name}`));
+        // Create a unique folder for extraction to avoid collisions
+        const extractDirName = `extracted_${Date.now()}`;
+        const outputDir = path.join(__dirname, '../uploads', extractDirName);
 
-        // Cleanup
+        if (!fs.existsSync(outputDir)) {
+            fs.mkdirSync(outputDir, { recursive: true });
+        }
+
+        console.log(`🔄 Extracting to: ${outputDir}`);
+        zip.extractAllTo(outputDir, true);
+
+        // Generate Download URLs
+        const protocol = req.protocol;
+        const host = req.get('host');
+        const baseUrl = `${protocol}://${host}/uploads/${extractDirName}`;
+
+        const fileList = zipEntries
+            .filter(entry => !entry.isDirectory)
+            .map(entry => {
+                // Return object with name and url
+                return {
+                    name: entry.entryName,
+                    url: `${baseUrl}/${entry.entryName}`
+                };
+            });
+
+        console.log(`✅ Extracted ${fileList.length} files.`);
+
+        // Cleanup uploaded zip
         fs.unlink(req.file.path, () => { });
 
-        res.json({ files: fileList });
+        res.json({
+            message: 'Extraction successful',
+            base_url: baseUrl,
+            files: fileList
+        });
         console.log('✨ Transaction Complete.');
+
     } catch (error) {
         console.error('❌ Extract error:', error);
-        fs.unlink(req.file.path, () => { });
-        res.status(500).json({ error: 'Failed to extract zip' });
+        if (fs.existsSync(req.file.path)) fs.unlink(req.file.path, () => { });
+        res.status(500).json({ error: 'Failed to extract zip', details: error.message });
     }
 };

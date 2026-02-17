@@ -13,7 +13,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Static files (if needed for temp storage access, though usually we stream)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static files - Force download for all files in uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+    setHeaders: (res, path) => {
+        res.set('Content-Disposition', 'attachment');
+    }
+}));
 
 // Routes
 const imageRoutes = require('./routes/imageRoutes');

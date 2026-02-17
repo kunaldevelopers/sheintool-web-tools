@@ -201,8 +201,16 @@ export default function ZipManager() {
                                 <h3 className="font-bold text-gray-700 mb-2">Contents:</h3>
                                 <ul className="space-y-1">
                                     {result.files.map((f, i) => (
-                                        <li key={i} className="text-sm text-gray-600 border-b border-gray-100 last:border-0 py-2">
-                                            {f}
+                                        <li key={i} className="flex items-center justify-between text-sm text-gray-600 border-b border-gray-100 last:border-0 py-2">
+                                            <span>{f.name}</span>
+                                            <a
+                                                href={f.url}
+                                                download={f.name}
+                                                className="text-pink-500 hover:text-pink-700 font-medium text-xs flex items-center gap-1"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <FontAwesomeIcon icon={faDownload} /> Download
+                                            </a>
                                         </li>
                                     ))}
                                 </ul>
