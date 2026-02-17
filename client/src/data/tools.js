@@ -1,7 +1,7 @@
 import {
     faImage, faVideo, faMusic, faFilePdf, faQrcode, faFileZipper,
     faObjectGroup, faScissors, faLock, faUnlock, faRotate, faStamp, faListOl, faArrowDownWideShort,
-    faFileWord, faFileCode, faFont, faCompress
+    faFileWord, faFileCode, faFont, faCompress, faPen
 } from '@fortawesome/free-solid-svg-icons';
 
 export const TOOLS = [
@@ -41,6 +41,7 @@ export const TOOLS = [
     {
         category: "Edit PDF",
         items: [
+            { id: 'advanced-pdf-editor', name: 'Advanced PDF Editor', desc: 'Edit text, images, and shapes in your PDF.', icon: faPen, path: '/tools/advanced-pdf-editor', tags: 'edit modify text image draw' },
             { id: 'rotate-pdf', name: 'Rotate PDF', desc: 'Rotate your PDF pages.', icon: faRotate, path: '/tools/rotate-pdf' },
             { id: 'watermark-pdf', name: 'Add Watermark', desc: 'Stamp text over your PDF.', icon: faStamp, path: '/tools/watermark-pdf' },
             { id: 'page-numbers', name: 'Page Numbers', desc: 'Add page numbers into your PDF.', icon: faListOl, path: '/tools/page-numbers' },

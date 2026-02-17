@@ -21,6 +21,7 @@ import PageNumbersPdf from './pages/PageNumbersPdf';
 import OrganizePdf from './pages/OrganizePdf';
 import OfficeToPdf from './pages/OfficeToPdf';
 import OcrPdf from './pages/OcrPdf';
+import AdvancedPdfEditor from './pages/AdvancedPdfEditor';
 import ImageToPdf from './pages/ImageToPdf';
 
 // Placeholder for tool pages (will implement later)
@@ -57,6 +58,7 @@ function App() {
         <Route path="/tools/watermark-pdf" element={<WatermarkPdf />} />
         <Route path="/tools/page-numbers" element={<PageNumbersPdf />} />
         <Route path="/tools/organize-pdf" element={<OrganizePdf />} />
+        <Route path="/tools/advanced-pdf-editor" element={<AdvancedPdfEditor />} />
 
         {/* Converters */}
         <Route path="/tools/word-to-pdf" element={<OfficeToPdf />} />

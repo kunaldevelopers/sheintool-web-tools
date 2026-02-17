@@ -47,6 +47,7 @@ app.use('/api/tools/zip', zipRoutes);
 app.use('/api/tools/pdf/core', pdfCoreRoutes);
 app.use('/api/tools/pdf/edit', pdfEditRoutes);
 app.use('/api/tools/pdf/extra', pdfExtraRoutes);
+app.use('/api/tools/pdf/advanced-editor', require('./routes/pdfAdvancedRoutes'));
 
 
 
