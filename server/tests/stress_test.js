@@ -75,7 +75,8 @@ async function uploadFile(endpoint, filePath, fieldName = 'file', extraFields = 
             success: false,
             duration,
             status: error.response?.status || 0,
-            message: error.message
+            message: error.message,
+            data: error.response?.data ? error.response.data.toString() : null
         };
     }
 }
@@ -154,8 +155,16 @@ async function simulateUser(id) {
             stats.responseTimes.push(result.duration);
         } else {
             stats.failures++;
-            if (!stats.errors[result.message]) stats.errors[result.message] = 0;
-            stats.errors[result.message]++;
+            // Log status code if available
+            const errorKey = result.status ? `Status ${result.status}` : (result.message || 'Unknown Error');
+            if (!stats.errors[errorKey]) stats.errors[errorKey] = 0;
+            stats.errors[errorKey]++;
+
+            // Debug first 5 errors to console
+            if (stats.failures < 5) {
+                console.log('--- Failure Debug ---');
+                console.log(result);
+            }
         }
 
         // Slight Random Delay between requests (0.5s - 2s) to be realistic

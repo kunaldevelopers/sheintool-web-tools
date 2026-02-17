@@ -1,22 +1,26 @@
 {
   "users": 100,
-  "total": 23722,
-  "success": 3,
-  "failures": 23719,
-  "avgResponse": "696",
+  "total": 23072,
+  "success": 87,
+  "failures": 22985,
+  "avgResponse": "2018",
   "errors": {
-    "read ECONNRESET": 58,
-    "": 23661
+    "Unknown Error": 22824,
+    "Status 503": 10,
+    "read ECONNRESET": 147,
+    "Status 500": 2,
+    "Request failed with status code 500": 1,
+    "Parse Error: Expected HTTP/, RTSP/ or ICE/": 1
   },
   "toolUsage": {
-    "Convert Audio": 3571,
-    "Compress PDF": 3538,
-    "Convert Image": 2276,
-    "Word to PDF": 1163,
-    "Split PDF": 2430,
-    "Merge PDF": 3552,
-    "OCR Image": 1192,
-    "Image to PDF": 3548,
-    "Convert Video": 2452
+    "Image to PDF": 3485,
+    "OCR Image": 1217,
+    "Convert Video": 2268,
+    "Split PDF": 2367,
+    "Convert Audio": 3422,
+    "Word to PDF": 1209,
+    "Merge PDF": 3453,
+    "Convert Image": 2224,
+    "Compress PDF": 3427
   }
 }

@@ -3,102 +3,102 @@
     "name": "Merge PDF",
     "category": "PDF Tools",
     "status": "PASS",
-    "duration": 112
+    "duration": 177
   },
   {
     "name": "Split PDF",
     "category": "PDF Tools",
     "status": "PASS",
-    "duration": 51
+    "duration": 68
   },
   {
     "name": "Compress PDF",
     "category": "PDF Tools",
     "status": "PASS",
-    "duration": 57
+    "duration": 81
   },
   {
     "name": "Protect PDF",
     "category": "PDF Tools",
     "status": "PASS",
-    "duration": 64
+    "duration": 71
   },
   {
     "name": "Unlock PDF",
     "category": "PDF Tools",
     "status": "PASS",
-    "duration": 66
+    "duration": 92
   },
   {
     "name": "Rotate PDF",
     "category": "PDF Tools",
     "status": "PASS",
-    "duration": 58
+    "duration": 70
   },
   {
     "name": "Markdown to PDF",
     "category": "Conversion",
     "status": "PASS",
-    "duration": 1644
+    "duration": 10594
   },
   {
     "name": "PDF to Markdown",
     "category": "Conversion",
     "status": "PASS",
-    "duration": 48
+    "duration": 728
   },
   {
     "name": "Word to PDF",
     "category": "Conversion",
     "status": "PASS",
-    "duration": 1867
+    "duration": 2001
   },
   {
     "name": "Image to PDF",
     "category": "Conversion",
     "status": "PASS",
-    "duration": 70
+    "duration": 109
   },
   {
     "name": "OCR (Image)",
     "category": "Conversion",
     "status": "PASS",
-    "duration": 348
+    "duration": 1004
   },
   {
     "name": "OCR (PDF)",
     "category": "Conversion",
     "status": "PASS",
-    "duration": 5501
+    "duration": 5471
   },
   {
     "name": "Image Converter",
     "category": "Media",
     "status": "PASS",
-    "duration": 31
+    "duration": 28
   },
   {
     "name": "Video Converter",
     "category": "Media",
     "status": "PASS",
-    "duration": 182
+    "duration": 979
   },
   {
     "name": "Audio Converter",
     "category": "Media",
     "status": "PASS",
-    "duration": 123
+    "duration": 129
   },
   {
     "name": "Zip Create",
     "category": "Utilities",
     "status": "PASS",
-    "duration": 34
+    "duration": 56
   },
   {
     "name": "QR Generator",
     "category": "Utilities",
     "status": "PASS",
-    "duration": 43
+    "duration": 281
   }
 ]

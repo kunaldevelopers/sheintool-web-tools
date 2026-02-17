@@ -48,3 +48,15 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+// Crash Handling
+process.on('uncaughtException', (err) => {
+    console.error('🔥 UNCAUGHT EXCEPTION:', err);
+    // fs.appendFileSync('crash.log', `${new Date().toISOString()} - UNCAUGHT EXCEPTION: ${err.stack}\n`);
+    // process.exit(1); // Optional: Nodemon will restart
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('🔥 UNHANDLED REJECTION:', reason);
+    // fs.appendFileSync('crash.log', `${new Date().toISOString()} - UNHANDLED REJECTION: ${reason}\n`);
+});
