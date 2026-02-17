@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const jobQueue = require('../services/jobQueue');
+const puppeteerCleanup = require('../utils/puppeteerCleanup');
 
 exports.wordToPdf = async (req, res) => {
     // Word (Docx) -> HTML -> Puppeteer PDF.
@@ -15,6 +16,9 @@ exports.wordToPdf = async (req, res) => {
             return new Promise(async (resolve, reject) => {
                 const outputFilename = `${path.parse(req.file.originalname).name}.pdf`;
                 const outputPath = path.join('uploads', outputFilename);
+
+                let browser = null;
+                let jobDir = null;
 
                 try {
                     console.log(`--- Word to PDF Request (Job Started) ---`);
@@ -38,8 +42,12 @@ exports.wordToPdf = async (req, res) => {
                         </html>
                     `;
 
-                    // 2. HTML to PDF via Puppeteer
-                    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+                    // 2. HTML to PDF via Puppeteer (Managed)
+                    // Use cleaner util
+                    const instance = await puppeteerCleanup.launch({ headless: true });
+                    browser = instance.browser;
+                    jobDir = instance.jobDir;
+
                     const page = await browser.newPage();
                     await page.setContent(html, { waitUntil: 'networkidle0' });
 
@@ -49,8 +57,6 @@ exports.wordToPdf = async (req, res) => {
                         printBackground: true,
                         margin: { top: '2cm', bottom: '2cm', left: '2cm', right: '2cm' }
                     });
-
-                    await browser.close();
 
                     console.log(`✅ Conversion Successful: ${outputFilename}`);
 
@@ -68,6 +74,9 @@ exports.wordToPdf = async (req, res) => {
                     console.error('Word to PDF error:', error);
                     if (fs.existsSync(req.file.path)) fs.unlink(req.file.path, () => { });
                     reject(error);
+                } finally {
+                    // Guaranteed Cleanup
+                    await puppeteerCleanup.close(browser, jobDir);
                 }
             });
         });

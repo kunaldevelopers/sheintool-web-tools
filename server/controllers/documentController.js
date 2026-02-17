@@ -3,6 +3,7 @@ const path = require('path');
 const MarkdownIt = require('markdown-it');
 const pdfParse = require('pdf-parse');
 const puppeteer = require('puppeteer');
+const puppeteerCleanup = require('../utils/puppeteerCleanup');
 
 const md = new MarkdownIt();
 
@@ -40,11 +41,20 @@ exports.markdownToPdf = async (req, res) => {
     `;
 
     console.log('🔄 Launching Puppeteer...');
-    const browser = await puppeteer.launch({ headless: 'new' });
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-    await page.pdf({ path: outputPath, format: 'A4', printBackground: true });
-    await browser.close();
+    // Use managed cleanup
+    const instance = await puppeteerCleanup.launch({ headless: 'new' });
+    const browser = instance.browser;
+    const jobDir = instance.jobDir;
+
+    try {
+      const page = await browser.newPage();
+      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+      await page.pdf({ path: outputPath, format: 'A4', printBackground: true });
+    } finally {
+      await puppeteerCleanup.close(browser, jobDir);
+    }
+
+    // Browser is closed now
 
     console.log(`✅ Conversion Successful: ${outputFilename}`);
     console.log('⬇️  Sending file to client...');

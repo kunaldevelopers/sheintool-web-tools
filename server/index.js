@@ -3,6 +3,11 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const puppeteerCleanup = require('./utils/puppeteerCleanup');
+
+// Initialize Cleanup System
+puppeteerCleanup.init();
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;

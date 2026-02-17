@@ -4,6 +4,7 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 
 const jobQueue = require('../services/jobQueue');
+const puppeteerCleanup = require('../utils/puppeteerCleanup');
 
 exports.ocrScan = async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
@@ -15,6 +16,8 @@ exports.ocrScan = async (req, res) => {
                 const outputPath = path.join('uploads', outputFilename);
                 const ext = path.extname(req.file.originalname).toLowerCase();
                 let textResult = "";
+                let browser = null;
+                let jobDir = null;
 
                 try {
                     console.log(`--- OCR Request (Job Started) ---`);
@@ -26,8 +29,11 @@ exports.ocrScan = async (req, res) => {
                         // 1. Read PDF as Base64 to inject into Puppeteer
                         const pdfData = fs.readFileSync(req.file.path).toString('base64');
 
-                        // 2. Launch Puppeteer
-                        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+                        // 2. Launch Puppeteer (Managed)
+                        const instance = await puppeteerCleanup.launch({ headless: true });
+                        browser = instance.browser;
+                        jobDir = instance.jobDir;
+
                         const page = await browser.newPage();
 
                         // 3. Inject HTML with PDF.js
@@ -70,7 +76,10 @@ exports.ocrScan = async (req, res) => {
                             return window.renderPages(data);
                         }, pdfData);
 
-                        await browser.close();
+                        // Browser work is done, but we keep it open until finally or close here?
+                        // Actually better to keep it until finally to ensure proper cleanup sequence.
+                        // But we can close it early if we want to save resources during OCR.
+                        // Let's rely on finally block for robust cleanup.
 
                         console.log(`🖼️  Rendered ${pageImages.length} pages. Starting Tesseract...`);
 
@@ -105,6 +114,9 @@ exports.ocrScan = async (req, res) => {
                     console.error('OCR error:', error);
                     if (fs.existsSync(req.file.path)) fs.unlink(req.file.path, () => { });
                     reject(error);
+                } finally {
+                    // Guaranteed Cleanup
+                    await puppeteerCleanup.close(browser, jobDir);
                 }
             });
         });
